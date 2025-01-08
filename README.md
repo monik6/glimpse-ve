@@ -2,6 +2,7 @@
 Glimpse is a Google Slides add-on designed to help laymen create virtual exhibitions quickly and easily, with high-quality graphics and interactive features.
 
 **Glimpse Code Instructions**
+
 Open Google Chrome.
 Open Google Slides and name the file as "GlimpseVE".
 Go to Extensions and select "Apps Script". Name this file also as "GlimpseVE".
