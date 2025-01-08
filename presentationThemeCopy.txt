@@ -1,0 +1,47 @@
+// Save file as presentationThemeCopy.gs
+
+function copyPresentation() {
+  SlidesApp.getUi().alert("Your exhibiton is on it's way!");
+  // Get the ID of the presentation you want to copy
+  var presentationId = "1PsD-4Thueei-OPXpH4E5m3eKhRwNhtaoSpZhyBhsv6c";
+
+  // Get the name of the presentation
+  var presentationName = SlidesApp.openById(presentationId).getName();
+
+  // Create a copy of the presentation
+  var newPresentation = SlidesApp.create(presentationName + " (Copy)");
+
+  // Get the ID of the new presentation
+  var newPresentationId = newPresentation.getId();
+
+  // Get the slides from the original presentation
+  var originalPresentation = SlidesApp.openById(presentationId);
+  var slides = originalPresentation.getSlides();
+
+  // Add the slides to the new presentation
+  for (var i = 0; i < slides.length; i++) {
+    var slide = slides[i];
+    newPresentation.appendSlide(slide);
+  }
+
+  // Set the URL of the new presentation in script properties
+  var presentationUrl = newPresentation.getUrl();
+  PropertiesService.getScriptProperties().setProperty('presentationUrl', presentationUrl);
+
+  // Return the ID of the new presentation
+  return presentationUrl;
+}
+
+function getPresentationUrl() {
+  // Get the URL of the presentation from script properties
+  var presentationUrl = PropertiesService.getScriptProperties().getProperty('presentationUrl');
+  if (presentationUrl) {
+    return presentationUrl;
+  } else {
+    // If the URL is not found in script properties, create a new presentation and return its URL
+    var presentationId = copyPresentation();
+    var presentationUrl = SlidesApp.openById(presentationId).getUrl();
+    PropertiesService.getScriptProperties().setProperty('presentationUrl', presentationUrl);
+    return presentationUrl;
+  }
+}

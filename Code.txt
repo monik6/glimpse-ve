@@ -1,0 +1,74 @@
+// We have to save 7 files with the following names-
+// Sidebar                      use HTML
+// index                        use HTML
+// theme1_Template              use Script
+// sheetToSlideDataEntry        use Script
+// formcreation                 use Script
+// presentationThemeCopy        use Script
+// loadingStructure             use HTML
+
+
+function onOpen() {
+  var ui = SlidesApp.getUi();
+  ui.createAddonMenu()
+      .addItem('Open Sidebar', 'showSidebar')
+      .addToUi();
+}
+
+function showSidebar() {
+  var html = HtmlService.createHtmlOutputFromFile('Sidebar').setSandboxMode(HtmlService.SandboxMode.IFRAME);
+  SlidesApp.getUi().showSidebar(html);
+}
+
+function includeExternalFile(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename)
+      .getContent();
+}
+
+function doGet() {
+  var html = HtmlService.createTemplateFromFile("index").evaluate();
+  var projectEmails1 = getProjectEmails1();
+  html.projectEmails1 = projectEmails1;
+  //return html.evaluate();
+  return html.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function setIframeCode(iframeCode) {
+  SlidesApp.getUi().alert('iFrame code submitted sucessfully!');
+  PropertiesService.getUserProperties().setProperty("iframeCode", iframeCode);
+}
+
+function getIframeCode() {
+  return PropertiesService.getUserProperties().getProperty("iframeCode");
+}
+
+
+function getProjectEmails1() {
+  var sheetUrl1 = getSheetUrl1();
+  var sheet = SpreadsheetApp.openByUrl(sheetUrl1).getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  var projectEmails1 = [];
+  for (var i = 2; i < data.length; i++) {
+    if (data[i][1] && data[i][8]) { // check if the values are not empty
+      projectEmails1.push({
+        title: data[i][1],
+        email: data[i][8]
+      });
+    }
+  }
+  return projectEmails1;
+}
+
+
+
+function sendPresentationLink(email, subject, body) {
+  
+  MailApp.sendEmail({
+    to: email,
+    subject: subject,
+    htmlBody: body
+  });
+
+   
+  
+}

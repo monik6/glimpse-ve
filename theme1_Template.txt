@@ -1,0 +1,167 @@
+// Save file as theme1_Template.gs
+
+function createTheme1(){
+
+  // show sidebar with "Please wait" message
+  var htmlOutput = HtmlService.createHtmlOutputFromFile('loadingStructure');
+  var sidebar = SlidesApp.getUi().showSidebar(htmlOutput);
+  
+  const layoutIndexes = [1, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 3, 4, 5, 6, 7, 8, 2, 1]; // layout indexes for each slide
+  const numSlides = 45;
+  
+  
+  
+  // run createTheme1 function
+  insertNewSlides(layoutIndexes, numSlides);
+  
+  // change sidebar HTML back to the original sidebar.html
+  var htmlOutput = HtmlService.createHtmlOutputFromFile('Sidebar');
+  var sidebar = SlidesApp.getUi().showSidebar(htmlOutput);
+  
+}
+
+
+function insertNewSlides(layoutIndexes, numSlides) {
+  const presentation = SlidesApp.getActivePresentation();
+  const master = presentation.getMasters()[0]; // assuming the layout is in the first master
+  const layouts = master.getLayouts();
+  const slides = [];
+  
+  for (let i = 0; i < numSlides; i++) {
+    const layoutIndex = layoutIndexes[i];
+    const slide = presentation.appendSlide(layouts[layoutIndex]);
+
+   slides.push(slide);
+  }
+  
+  buttonSlideRelation(numSlides);
+  
+  return slides;
+}
+
+function buttonSlideRelation(total_slides){
+ var presentation = SlidesApp.getActivePresentation();
+  
+  for (var j = 0; j <=total_slides; j++) {
+    var slide = presentation.getSlides()[j];
+
+    switch(j){
+      case 0: insertHallSetButtons(0, 1, 44, 44); break; //Hall 1
+      case 1: insertCorridorSetButtons(1, 0);     break; //Corridor 1 
+      case 2: insertRoomSetButtons(2,5);          break; //Room set 1
+      case 8: insertCorridorSetButtons(8, 0);     break; //Corridor 2 
+      case 9: insertRoomSetButtons(9,5);          break; //Room set 2
+      case 15: insertCorridorSetButtons(15, 0);   break; //Corridor 3 
+      case 16: insertRoomSetButtons(16,5);        break; //Room set 3
+      case 22: insertCorridorSetButtons(22, 0);   break; //Corridor 4 
+      case 23: insertRoomSetButtons(23,5);        break; //Room set 4
+      case 29: insertCorridorSetButtons(29, 0);   break; //Corridor 5 
+      case 30: insertRoomSetButtons(30,5);        break; //Room set 5
+      case 36: insertCorridorSetButtons(36, 0);   break; //Corridor 6 
+      case 37: insertRoomSetButtons(37,5);        break; //Room set 6
+      case 43: insertCorridorSetButtons(43, 0);   break; //Corridor 7
+      case 45: insertHallSetButtons(44, 1, 0, 0); break; //Hall 1
+    }
+  }
+}
+
+function insertNextSlideButton(startIndex, endIndex, shapeText, left) {
+  var presentation = SlidesApp.getActivePresentation();
+  
+  for (var i = startIndex; i <= endIndex; i++) {
+    var slide = presentation.getSlides()[i];
+    var shape = slide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, left, 344, 115, 34);
+    
+
+    var textRange = shape.getText();
+    textRange.setText(shapeText);
+    shape.getText().getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+    var textFormat = textRange.getTextStyle();
+    textFormat.setBold(true);
+    textFormat.setFontFamily('Montserrat');
+    
+    shape.setLinkSlide(presentation.getSlides()[i+1]);
+  }
+}
+
+function insertSpecificSlideButton(startIndex, endIndex, shapeText, slideLinked, left) {
+  var presentation = SlidesApp.getActivePresentation();
+  
+  for (var i = startIndex; i <= endIndex; i++) {
+    var slide = presentation.getSlides()[i];
+    var shape = slide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, left, 344, 115, 34);
+
+    var textRange = shape.getText();
+    textRange.setText(shapeText);
+    shape.getText().getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+    var textFormat = textRange.getTextStyle();
+    textFormat.setBold(true);
+    textFormat.setFontFamily('Montserrat');
+    
+    shape.setLinkSlide(presentation.getSlides()[slideLinked]);
+  }
+}
+
+function insertRoomSlideButton(corridorSlide, roomLinked, top){
+  var presentation = SlidesApp.getActivePresentation();
+    var slide = presentation.getSlides()[corridorSlide];
+    var shape = slide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 67, top, 83, 22);
+    shape.getFill().setTransparent();
+    shape.getBorder().setTransparent();
+    shape.setLinkSlide(presentation.getSlides()[roomLinked]);
+}
+
+function insertCorridorRoomButtons(corridorSlide){
+  insertRoomSlideButton(corridorSlide, 2, 196);
+  insertRoomSlideButton(corridorSlide, 9, 225);
+  insertRoomSlideButton(corridorSlide, 16, 253);
+  insertRoomSlideButton(corridorSlide, 23, 280);
+  insertRoomSlideButton(corridorSlide, 30, 310);
+  insertRoomSlideButton(corridorSlide, 37, 340);
+}
+
+function insertHallSetButtons(hallSlide1, exhibition1Slide, instructionsSlide, exhibition2Slide){
+  insertSpecificSlideButton(hallSlide1, hallSlide1, "Exhibition 1", exhibition1Slide, 167);        
+  insertSpecificSlideButton(hallSlide1, hallSlide1, "Instructions", instructionsSlide, 302);
+  insertSpecificSlideButton(hallSlide1, hallSlide1, "Exhibition 2", exhibition2Slide, 437);
+}
+
+function insertCorridorSetButtons(corridorSlide, hallSlide){
+  insertNextSlideButton(corridorSlide, corridorSlide, "Proceed", 226); 
+  insertSpecificSlideButton(corridorSlide, corridorSlide, "Back to C. Hall", hallSlide, 366);
+  insertCorridorRoomButtons(corridorSlide);
+
+}
+
+function insertRoomSetButtons(compositeWall, noOfWalls){
+  insertNextSlideButton(compositeWall, compositeWall + noOfWalls - 1, "Next Project", 167); 
+  insertSpecificSlideButton(compositeWall, compositeWall + noOfWalls, "Composite Wall", compositeWall, 302);
+  insertSpecificSlideButton(compositeWall, compositeWall + noOfWalls, "Back to Lobby", compositeWall - 1, 437, 335);
+  insertNextSlideButton(compositeWall + noOfWalls, compositeWall + noOfWalls, "Proceed", 167); 
+}
+
+
+/*
+function createLayoutSlide() {
+  const slides = SlidesApp.getActivePresentation();
+  let slide = slides.appendSlide(slides.getLayouts()[1]);
+}
+*/
+
+/*
+function insertTextInShapeAndLinkToSlide1(slideIndex, shapeText1, linkSlideIndex) {
+  var presentation = SlidesApp.getActivePresentation();
+  var slide = presentation.getSlides()[slideIndex];
+  var shape = slide.insertShape(SlidesApp.ShapeType.ROUND_RECTANGLE, 168, 335, 112, 35); // Change the shape type and dimensions as desired
+  
+  var textRange1 = shape.getText();
+  textRange1.setText(shapeText1);
+  shape.getText().getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+  var textFormat = textRange1.getTextStyle();
+  textFormat.setBold(true);
+  textFormat.setFontFamily('Montserrat');
+  
+  var linkSlide = presentation.getSlides()[linkSlideIndex];
+  var link = shape.setLinkSlide(linkSlide);
+}
+*/

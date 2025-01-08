@@ -1,0 +1,256 @@
+<!-- Save file as index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      /* Style for the body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+.container1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -16px;
+}
+
+.col {
+  flex: 1;
+  padding: 0 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  .col {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
+
+
+
+
+
+/* Style for the container */
+.container {
+  max-width: 425px;
+  margin-top: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+/* Style for the dropdown label */
+label[for="project-dropdown"] {
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Style for the dropdown menu */
+#project-dropdown {
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+/* Style for the input fields */
+input[type="text"] {
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+  width: 100%;
+  max-width: 95%;
+  margin-bottom: 20px;
+}
+
+/* Style for the send button */
+button {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #F6D167;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+/* Style for the collapsible section */
+.collapsible {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+/* Style for the collapsible header */
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.collapsible-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.collapsible-header i {
+  font-size: 24px;
+  color: #4CAF50;
+  transform: rotate(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Style for the collapsible content */
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+  padding: 0 10px 10px 10px;
+}
+
+.collapsible-content p {
+  margin: 0;
+}
+
+/* Style for the active collapsible header */
+.collapsible-header.active i {
+  transform: rotate(180deg);
+}
+
+.iframe-wrapper {
+        text-align: center;
+      }
+
+      </style>
+  </head>
+  <body>
+
+<div class="iframe-wrapper">
+<div id="iframe-container"></div>
+</div>
+
+    <script>
+      function displayIframe(iframeCode) {
+        document.getElementById("iframe-container").innerHTML = iframeCode;
+      }
+
+      google.script.run.withSuccessHandler(displayIframe).getIframeCode();
+    </script>
+
+
+</div>
+
+    <br>
+
+<div class="container1">
+    <div class="row">
+      <div class="col">
+        <div class="container">
+        <div class="header">
+          <h1>Send Email</h1>
+        </div>
+        <div class="content">
+        <div class="dropdown">
+          <label for="project-dropdown">Select a project:</label>
+          <select id="project-dropdown">
+            <? var sheetUrl1 = getSheetUrl1(); ?>
+            <? var projectEmails1 = getProjectEmails1(); ?>
+            <? for (var i = 0; i < projectEmails1.length; i++) { ?>
+              <option value="<?= projectEmails1[i].email ?>"><?= projectEmails1[i].title ?></option>
+            <? } ?>
+          </select>
+        </div>
+
+        <div class="input-field">
+          <label for="subjectText">Subject line:</label>
+          <input type="text" id="subjectText" size="50">
+        </div>
+
+        <div class="input-field">
+          <label for="bodyText">Body:</label>
+          <textarea id="bodyText" rows="10" cols="52"></textarea>
+        </div>
+
+        <div class="button">
+          <button onclick="sendEmail()">Send Email</button>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      
+      <iframe 
+      src="<?= getPublishedUrl() ?>?embedded=true" 
+      width="475" 
+      height="510" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0"
+    >
+      Loading…
+    </iframe>
+
+    </div>
+  </div>
+</div>
+
+
+
+    <script>
+     
+
+      function sendEmail() {
+  var email = document.getElementById("project-dropdown").value;
+  var subject = document.getElementById("subjectText").value;
+  var body = document.getElementById("bodyText").value;
+  google.script.run.withSuccessHandler(showAlert).sendPresentationLink(email, subject, body);
+}
+
+function showAlert() {
+  alert("Mail sent successfully!");
+}
+
+    </script>
+
+  </body>
+</html>

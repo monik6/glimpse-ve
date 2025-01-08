@@ -1,0 +1,33 @@
+// Save file as formcreation.gs
+
+function createNewForm() {
+  SlidesApp.getUi().alert("Sit tight, we're whipping up your Google Form in a jiffy!");
+  const form = FormApp.create('Test Form');
+  form.addTextItem().setTitle('Name');
+
+  const editUrl = form.getEditUrl();
+  const publishedUrl = form.getPublishedUrl();
+  PropertiesService.getScriptProperties().setProperty('editUrl', editUrl);
+  PropertiesService.getScriptProperties().setProperty('publishedUrl', publishedUrl);
+  return [editUrl, publishedUrl];
+}
+
+function getEditUrl() {
+  const editUrl = PropertiesService.getScriptProperties().getProperty('editUrl');
+  if (editUrl) {
+    return editUrl;
+  } else {
+    const urls = createNewForm();
+    return urls[0];
+  }
+}
+
+function getPublishedUrl() {
+  const publishedUrl = PropertiesService.getScriptProperties().getProperty('publishedUrl');
+  if (publishedUrl) {
+    return publishedUrl;
+  } else {
+    const urls = createNewForm();
+    return urls[1];
+  }
+}

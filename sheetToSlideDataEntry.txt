@@ -1,0 +1,203 @@
+// Save file as sheetToSlideDataEntry.gs
+
+function createNewSheet1() {
+  SlidesApp.getUi().alert('Time to spice up the exhibition! ');
+  const ss = SpreadsheetApp.create('Your Virtual Exhibiton Data Entry');
+  const sheet = ss.getActiveSheet();
+
+  sheet.setColumnWidth(1, 100);
+  for (let i = 2; i <= 9; i++) {
+    sheet.setColumnWidth(i, 125);
+  }
+  sheet.setRowHeight(1, 100);
+  
+  sheet.getRange("A1:I1").merge(); // merge cells from A1 to H1
+  sheet.getRange("A1").setValue("Please avoid modifying the Slide Index column in column 1 to prevent data insertion errors. Only YouTube videos are permitted. Project Title, Project Description, Video URL, Team Members 1-4, and Email address are all text inputs. Email addresses of Project owners will be used to establish communication between vistior and owner in Step 5."); // set note in the merged cell
+
+  
+  sheet.appendRow(['Slide Index', 'Project Title', 'Project Description', 'Video URL', 'TeamMember 1', 'Team Member 2', 'TeamMember3', 'Team Member 4', 'Email id']);
+  sheet.appendRow(['4', 'Title', 'Description', 'https://www.youtube.com/watch?v=LXb3EKWsInQ', 'Member1', 'Member2', 'Member3', 'Member4', 'example@gmail.com']);
+  sheet.appendRow(['5', 'Title', 'Description', 'https://www.youtube.com/watch?v=LXb3EKWsInQ', 'Member1', 'Member2', 'Member3', 'Member4', 'example@gmail.com']);
+  sheet.appendRow(['6', 'Title', 'Description', 'https://www.youtube.com/watch?v=LXb3EKWsInQ', 'Member1', 'Member2', 'Member3', 'Member4', 'example@gmail.com']);
+  sheet.appendRow(['7']);
+  sheet.appendRow(['8']);
+
+  sheet.appendRow(['11']);
+  sheet.appendRow(['12']);
+  sheet.appendRow(['13']);
+  sheet.appendRow(['14']);
+  sheet.appendRow(['15']);
+
+  sheet.appendRow(['18']);
+  sheet.appendRow(['19']);
+  sheet.appendRow(['20']);
+  sheet.appendRow(['21']);
+  sheet.appendRow(['22']);
+
+  sheet.appendRow(['25']);
+  sheet.appendRow(['26']);
+  sheet.appendRow(['27']);
+  sheet.appendRow(['28']);
+  sheet.appendRow(['29']);
+
+  sheet.appendRow(['32']);
+  sheet.appendRow(['33']);
+  sheet.appendRow(['34']);
+  sheet.appendRow(['35']);
+  sheet.appendRow(['36']);
+
+  sheet.appendRow(['39']);
+  sheet.appendRow(['40']);
+  sheet.appendRow(['41']);
+  sheet.appendRow(['42']);
+  sheet.appendRow(['43']);
+
+    // Set cell alignment and text wrapping
+  const range = sheet.getDataRange();
+  range.setHorizontalAlignment("center").setVerticalAlignment("middle").setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP);
+
+  // Set red background color for column 1 and row 2   
+  sheet.getRange("A1:I1").setBackground("#F2EE98");
+  sheet.getRange("A2:I2").setBackground("#FFCCCB");
+  sheet.getRange("A3:A32").setBackground("#FFCCCB");
+  
+
+  const sheetUrl1 = ss.getUrl();
+  const id = ss.getId();
+  DriveApp.getFileById(id).setSharing(DriveApp.Access.ANYONE, DriveApp.Permission.EDIT);
+  PropertiesService.getScriptProperties().setProperty('sheetUrl1', sheetUrl1);
+
+  return sheetUrl1;
+}
+
+function getSheetUrl1() {
+  var sheetUrl1 = PropertiesService.getScriptProperties().getProperty('sheetUrl1');
+  Logger.log(sheetUrl1);
+  if (sheetUrl1) {
+    return sheetUrl1;
+  } else {
+    return createNewSheet1();
+  }
+}
+
+// function getIframeCode() {
+//   return PropertiesService.getUserProperties().getProperty("iframeCode");
+// }
+
+
+function editExistingSlideFromSheet() {
+  var sheetUrl1 = getSheetUrl1();
+  const sheetId = sheetUrl1.split("/")[5];
+  const sheet = SpreadsheetApp.openById(sheetId).getSheets()[0];
+  const data = sheet.getDataRange().getValues();
+
+  const presentation = SlidesApp.getActivePresentation();
+
+  for (let i = 2; i < data.length; i++) {
+    const row = data[i];
+    const slideIndex = row[0] - 1;
+    const slide = presentation.getSlides()[slideIndex];
+
+    const projectTitle = row[1];
+    if (projectTitle) {
+      slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE).asShape().getText().setText(projectTitle);
+    }
+
+    const projectDescription = row[2];
+    if (projectDescription) {
+      slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(projectDescription);
+    }
+
+    const videoUrl = row[3];
+    if (videoUrl) {
+      var layout = slide.getLayout().getLayoutName();
+      var tablePosition = {};
+      if (layout == 'CUSTOM_3_1') {
+        slide.insertVideo(videoUrl, 125, 125, 175, 125); 
+        tablePosition = {left: 314, top: 210, width: 252, height: 30};
+      } else if (layout == 'CUSTOM_3_1_1') {
+        slide.insertVideo(videoUrl, 410, 155, 175, 125); 
+        tablePosition = {left: 178, top: 210, width: 230, height: 30};
+      } else if (layout == 'CUSTOM_3_1_1_1') {
+        slide.insertVideo(videoUrl, 110, 125, 175, 125); 
+        tablePosition = {left: 295, top: 210, width: 239, height: 30};
+      } else if (layout == 'CUSTOM_3_1_1_1_1') {
+        slide.insertVideo(videoUrl, 440, 125, 175, 125); 
+        tablePosition = {left: 149, top: 210, width: 239, height: 30};
+      } else if (layout == 'CUSTOM_3_1_1_1_1_1') {
+        slide.insertVideo(videoUrl, 400, 155, 175, 125);
+        tablePosition = {left: 184, top: 210, width: 205, height: 30};
+      }
+
+      var table = slide.insertTable(2, 2, tablePosition.left, tablePosition.top, tablePosition.width, tablePosition.height);
+    }
+
+    const teamMembers = row.slice(4, 8).filter(member => member !== '');
+    for (let j = 0; j < 4; j++) {
+      if (teamMembers[j]) {
+        if (videoUrl) {
+          table.getCell(Math.floor(j/2), j%2).getText().setText(teamMembers[j]);
+        }
+      }
+    }
+  }
+
+  SlidesApp.getUi().alert('Data inserted successfully!');
+}
+
+// function editExistingSlideFromSheet() {
+//   var sheetUrl1 = getSheetUrl1();
+//   const sheetId = sheetUrl1.split("/")[5];
+//   const sheet = SpreadsheetApp.openById(sheetId).getSheets()[0];
+//   const data = sheet.getDataRange().getValues();
+
+//   const presentation = SlidesApp.getActivePresentation();
+  
+//   for (let i = 1; i < data.length; i++) {
+//     const row = data[i];
+//     const slideIndex = row[0] - 1;
+//     const slide = presentation.getSlides()[slideIndex];
+//     const projectTitle = row[1];
+//     const projectDescription = row[2];
+//     const videoUrl = row[3];
+//     const teamMembers = row.slice(4, 8).filter(member => member !== '');
+
+//     // Check if any required values are missing
+//     if (!projectTitle || !projectDescription || !videoUrl || teamMembers.length === 0) {
+//       continue;
+//     }
+    
+//     slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE).asShape().getText().setText(projectTitle);
+//     slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(projectDescription);
+    
+//     var layout = slide.getLayout().getLayoutName();
+//     var tablePosition = {};
+//     if (layout == 'CUSTOM_3_1') {
+//       slide.insertVideo(videoUrl, 125, 125, 175, 125); 
+//       tablePosition = {left: 314, top: 210, width: 252, height: 30};
+//     } else if (layout == 'CUSTOM_3_1_1') {
+//       slide.insertVideo(videoUrl, 410, 155, 175, 125); 
+//       tablePosition = {left: 178, top: 210, width: 230, height: 30};
+//     } else if (layout == 'CUSTOM_3_1_1_1') {
+//       slide.insertVideo(videoUrl, 110, 125, 175, 125); 
+//       tablePosition = {left: 295, top: 210, width: 239, height: 30};
+//     } else if (layout == 'CUSTOM_3_1_1_1_1') {
+//       slide.insertVideo(videoUrl, 440, 125, 175, 125); 
+//       tablePosition = {left: 149, top: 210, width: 239, height: 30};
+//     } else if (layout == 'CUSTOM_3_1_1_1_1_1') {
+//       slide.insertVideo(videoUrl, 400, 155, 175, 125);
+//       tablePosition = {left: 184, top: 210, width: 205, height: 30};
+//     }
+    
+//     var table = slide.insertTable(2, 2, tablePosition.left, tablePosition.top, tablePosition.width, tablePosition.height);
+//     for (let j = 0; j < 4; j++) {
+//       if (teamMembers[j]) {
+//         table.getCell(Math.floor(j/2), j%2).getText().setText(teamMembers[j]);
+//       }
+//     }
+    
+//   }
+
+//   SlidesApp.getUi().alert('Data inserted successfully!');
+// }
+

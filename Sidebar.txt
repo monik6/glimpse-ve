@@ -1,0 +1,453 @@
+<!-- Save file as Sidebar.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    
+  <style>
+  @import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+
+  
+/* Font Awesome icons
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css'); */
+
+.sidebar {
+  background-color: #f5f5f5;
+  color: #222;
+  font-family: 'Montserrat', sans-serif;
+  padding: 20px;
+  width: 300px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 1200;
+  color: #047E9B;
+  margin-top: 0;
+  margin-left: 65px;
+}
+
+.task {
+  margin-top: 10px;
+  margin-right:40px;
+  //border-top: 1px solid #525151;
+  border-radius:5px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background-color: #F6D167;
+  padding: 10px;
+  transition: background-color 0.3s ease-out;
+}
+
+.task-header:hover {
+  background-color: #F8E08E;
+}
+
+.task-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: normal;
+  margin-right: 5px;
+}
+
+.task-icon {
+  font-size: 16px;
+  color: #000000;
+  /* margin-right: 10px; */
+}
+
+.toggle-button {
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  color: #222;
+  cursor: pointer;
+  padding-right: 20px;
+}
+
+.task-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.task-header.active + .task-content {
+  max-height: 1700px; /* Set a large enough value to expand the task */
+}
+
+
+.task-content p {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.task-content input[type="text"] {
+  padding: 5px;
+  border: 1px solid #ddd;
+  margin-right: 5px;
+  margin-bottom:10px;
+  width: 85%;
+  font-size: 14px;
+}
+
+.task-content button {
+  border: none;
+  border-radius: 5px;
+  background-color: #222;
+  color: #fff;
+  padding: 5px 15px;
+  /* margin-top: 5px; */
+  margin-bottom: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out;
+}
+
+.task-content button:hover {
+  background-color: #444;
+}
+
+
+  #link {
+    display: block;
+    width: 240px;
+    height: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: 1px solid black;
+    padding: 5px;
+  }
+
+.slideshow-container{
+  cursor: pointer;
+}
+
+</style>
+  </head>
+
+  <body>
+
+    <div class="sidebar">
+      <h1>GLIMPSE</h1>
+
+  <div class="task">
+  <div class="task-header">
+
+    <!-- <div class="task-icon">
+      <i class="fa-thin fa-wand-magic-sparkles"></i>
+    </div> -->
+    
+    <h2>Step 1: Choose theme</h2>
+   
+    <button class="toggle-button" onclick="toggleTask(this)">-</button>
+  </div>
+  <div class="task-content">
+    <p>Clicking the theme creates a new presentation. Please open the presentation using the button below and follow the steps. <br><i>See you there!</i></p>
+
+    <p><b>1. Modern Muse</b></p>
+ 
+         <div class="slideshow-container" id="slideshow1" onclick="google.script.run.withSuccessHandler(setSlideUrl).copyPresentation()">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=153RMFTgxiKUToKoJ04el34n7KtB5uJ2r&amp;export=download" alt="Hall" width="200">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=1uw0NQjJfSOGyT73m0mQMge-6uVdPEIM9&amp;export=download" alt="Corridor" width="200">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=1dEFEUOsEWzSqHwvR6GU___-raJ3tYkWg&amp;export=download" alt="RW1" width="200">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=1sGstOW2FQyCdoJtlMwqW7yIJzvgD2mTG&amp;export=download" alt="RW2" width="200">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=1oG9wj9eDJRz-byNmn69Gn5KzyTKWyr1U&amp;export=download" alt="RW3" width="200">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=1eVd-dqM2I1CrPCI6Dn4PbAKSgA3JoBMz&amp;export=download" alt="RW4" width="200">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=1hk2z4IrSISkBC9em9L6BLud5bmjujHqK&amp;export=download" alt="Rw5" width="200">
+      <img class="slide1" src="https://drive.google.com/u/0/uc?id=1RyctirR5wnE0DZdUINVfLdE-fa2yoDvh&amp;export=download" alt="RW6" width="200">
+    </div>  
+    
+  <p><b>2. Pixel Playland</b></p>
+
+   <div class="slideshow-container" id="slideshow2">
+      <img class="slide2" src="https://drive.google.com/u/0/uc?id=1_t3saDMClpLNemw9z1-_vNI6xpEA_N6B&amp;export=download" alt="Hall2_1" width="200">
+          <img class="slide2" src="https://drive.google.com/u/0/uc?id=1MwjP_Yixw8mb3tDfFcXcEnMHa5uaTgto&amp;export=download" alt="Corridor2_1" width="200">
+          <img class="slide2" src="https://drive.google.com/u/0/uc?id=1RVFSpHuG8ro5Z5KuQrpc-Gt2-yL5ijIg&amp;export=download" alt="RW2_1" width="200">
+          <img class="slide2" src="https://drive.google.com/u/0/uc?id=1BtYr36l4R0ln0KAUNMshby-6BTUYzPtt&amp;export=download" alt="RW2_2" width="200">
+          <img class="slide2" src="https://drive.google.com/u/0/uc?id=18ivzZ4W4OEwkmIfYawuBGC3SBUPc8JGt&amp;export=download" alt="RW2_3" width="200">
+      
+    </div>  
+
+    <p>Slide URL:</p>
+    <input type="text" id="presentationUrl" size="50" disabled>
+    <br>
+    <button onclick="openPresentation()">Open</button>
+
+
+  </div>
+</div>
+
+<script>
+
+  function setSlideUrl(url) {
+    document.getElementById("presentationUrl").value = url;
+  }
+
+  function openPresentation() {
+    var url = document.getElementById("presentationUrl").value;
+    window.open(url, '_blank');
+  }
+
+</script>
+
+
+
+<div class="task">
+  <div class="task-header">
+    <h2>Step 2: Create structure</h2>
+    <div class="task-icon">
+      <i class="fas fa-palette"></i>
+    </div>
+    <button class="toggle-button" onclick="toggleTask(this)">-</button>
+  </div>
+  <div class="task-content">
+    <p>Please make sure you have changed the theme. Clear all slides using delete button before you click the button to experience the fun! </p>
+    <button onclick="google.script.run.createTheme1();">Create</button>
+  </div>
+</div>
+
+<script>
+// JavaScript code for two slideshows
+let slideIndex1 = 0;
+let slideIndex2 = 0;
+showSlides1();
+showSlides2();
+
+function showSlides1() {
+  let i;
+  const slides = document.getElementsByClassName("slide1");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex1++;
+  if (slideIndex1 > slides.length) {
+    slideIndex1 = 1;
+  }
+  slides[slideIndex1 - 1].style.display = "block";
+  setTimeout(showSlides1, 3000); // Change image every 3 seconds
+}
+
+function showSlides2() {
+  let i;
+  const slides = document.getElementsByClassName("slide2");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex2++;
+  if (slideIndex2 > slides.length) {
+    slideIndex2 = 1;
+  }
+  slides[slideIndex2 - 1].style.display = "block";
+  setTimeout(showSlides2, 2000); // Change image every 4 seconds
+}
+
+</script>
+
+
+
+  <div class="task">
+  <div class="task-header">
+    <h2>Step 3: Data automation</h2>
+    <div class="task-icon">
+      <i class="fas fa-edit"></i>
+    </div>
+    <button class="toggle-button" onclick="toggleTask(this)">-</button>
+  </div>
+  <div class="task-content">
+    <p>Update the exhibition by creating a Google Sheet.</p>
+    <button onclick="google.script.run.withSuccessHandler(setSheetUrl).createNewSheet1()">Create New Sheet</button>
+    <br>
+    <p>Once the Sheet URL is visible, click on Open and edit the sheet accordingly. </p>
+    <p>Sheet URL:</p>
+    <input type="text" id="sheetUrl1" size="50" disabled>
+    
+   
+    <button onclick="openSheet()">Open</button>
+    
+    <p>To avoid overlap, input all data first and then insert.</p>
+    <button onclick="google.script.run.editExistingSlideFromSheet(document.getElementById('sheetUrl1').value);">Insert Data</button>
+  </div>
+</div>
+
+<script>
+  function setSheetUrl(url) {
+    document.getElementById("sheetUrl1").value = url;
+  }
+
+  function openSheet() {
+      var url = document.getElementById("sheetUrl1").value;
+      window.open(url, '_blank');
+    }
+</script>
+
+      
+  <div class="task">
+  <div class="task-header">
+    <h2>Step 4: Add interactions</h2>
+    <div class="task-icon">
+      <i class="fas fa-edit"></i>
+    </div>
+    <button class="toggle-button" onclick="toggleTask(this)">-</button>
+  </div>
+  <div class="task-content">
+    <p>Create a form and give it your personal flair. Use it for quiz or feedback.<br><i>It will be embedded automatically in Step 5!</i></p>
+    <button onclick="google.script.run.withSuccessHandler(setFormUrl).createNewForm()">Create New Form</button>
+    
+    <p>Open and edit once Form URL is visible.</p>
+    <p>Form URL:</p>
+    <input type="text" id="editUrl" size="50" disabled>
+  
+  <button onclick="openForm()">Open Form</button>
+  </div>
+</div>
+
+<script>
+function setFormUrl(url) {
+  document.getElementById("editUrl").value = url;
+}
+
+function openForm() {
+  var urls = document.getElementById("editUrl").value.split(",");
+  // Split the comma-separated URLs into an array
+
+  var editUrl = urls[0];
+  // Get the first URL (the edit URL)
+
+  window.open(editUrl, '_blank');
+  // Open the edit URL in a new window/tab
+}
+
+
+
+</script>
+
+
+       
+
+      <div class="task">
+        <div class="task-header">
+          <h2>Step 5: Deployment</h2>
+          <div class="task-icon">
+            <i class="fas fa-external-link-alt"></i>
+          </div>
+          <button class="toggle-button" onclick="toggleTask(this)">-</button>
+        </div>
+        <div class="task-content">
+
+    <p>It's time to embed your exhibition in the web app. 
+    <br>Follow the steps - 
+    <br><i>File > Share > Publish to Web > Choose Embed > Click Publish > Ok > Copy Code > Paste here > Submit.</i></p>
+    <p>Enter iframe code:</p>
+    <input type="text" id="iframe-code" name="iframe-code" size="50">
+    <button onclick="submitIframeCode()">Submit</button>
+
+          <button onclick="window.open('https://script.google.com/macros/s/AKfycbwtfia9f3wtU3nMvqrMim9WDlghTpF3gJRmexpbww17_Uwk9EG66F6hbd1IWkYKpbEnGw/exec')">Open Web App</button>
+          <!-- Paste Web App URL in place of the above URL -->
+
+         <!-- <button id="open-web-app-button">Open Web App</button> -->
+        </div>
+      </div>
+
+      <script>
+ function submitIframeCode() {
+    var iframeCode = document.getElementById("iframe-code").value;
+    google.script.run.setIframeCode(iframeCode);
+  }
+      </script>
+
+  <div class="task">
+  <div class="task-header">
+    <h2>Step 6: Share exhibition</h2>
+    <div class="task-icon">
+      <i class="fas fa-external-link-alt"></i>
+    </div>
+    <button class="toggle-button" onclick="toggleTask(this)">-</button>
+  </div>
+  <div class="task-content">
+    <p>Unveil your exhibition to a global audience and leave them in awe! Share the link on social media platforms or embed it on your website using iframe code.</p>
+    <button onclick="copyLink()">Copy the link</button>
+    <button onclick="embedExhibition()">Embed on your website</button>
+
+    <p id="hiddenLink" style="display: none;">https://script.google.com/macros/s/AKfycbwtfia9f3wtU3nMvqrMim9WDlghTpF3gJRmexpbww17_Uwk9EG66F6hbd1IWkYKpbEnGw/exec</p> 
+     <!-- Paste Web App URL in place of the above URL -->
+    
+    <p id="embedCode"></p>
+
+    <br>
+    <br>
+  </div>
+</div>
+
+      
+
+    </div>
+
+<script>
+// Select all task headers
+const taskHeaders = document.querySelectorAll('.task-header');
+
+// Add click event listeners to each task header
+taskHeaders.forEach((taskHeader) => {
+  taskHeader.addEventListener('click', () => {
+    // Toggle the 'active' class to change arrow icon
+    taskHeader.classList.toggle('active');
+    // Get the next element (task content) after the clicked header
+    const taskContent = taskHeader.nextElementSibling;
+    // If the task is currently open, close it by setting the max-height to 0
+    if (taskContent.style.maxHeight) {
+      taskContent.style.maxHeight = null;
+    } else {
+      // Otherwise, open the task by setting the max-height to the scroll height
+      taskContent.style.maxHeight = taskContent.scrollHeight + '5px';
+    }
+  });
+});
+
+// Open Web App Button
+const openWebAppButton = document.getElementById('open-web-app-button');
+// Add click event listener to open web app button
+openWebAppButton.addEventListener('click', () => {
+  // Replace YOUR_WEB_APP_URL with the actual URL of your web app
+  window.open('YOUR_WEB_APP_URL', '_blank');
+});
+
+function embedExhibition() {
+  const link = document.getElementById("hiddenLink").textContent;
+  const iframeCode = '<iframe src="' + link + '" frameborder="0" width="100%" height="1200"></iframe>';
+  document.getElementById("embedCode").textContent = iframeCode;
+  
+  // Copy the iframe code to the clipboard
+  navigator.clipboard.writeText(iframeCode);
+  
+  // Show an alert message using SlidesApp.getUi().alert()
+  alert('Embed code copied to clipboard!');
+}
+
+ 
+function copyLink() {
+  const link = document.getElementById("hiddenLink").textContent;
+  navigator.clipboard.writeText(link);
+  alert("Link copied to clipboard!");
+}
+
+</script>
+
+
+  </body>
+</html>

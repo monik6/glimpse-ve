@@ -1,0 +1,45 @@
+<!-- Save file as loadingStructure.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      /* center message and spinner in the middle of the sidebar */
+      .loading-message {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top:70%;
+        height: 100%;
+      }
+      .spinner {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #dbac34;
+        border-radius: 50%;
+        animation: spin 2s linear infinite;
+        margin-bottom: 20px;
+      }
+      /* spinner animation */
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      /* use Roboto font */
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  </head>
+  <body>
+    <div class="loading-message">
+      <div class="spinner"></div>
+      <p style="font-size: 14px; text-align: center; margin: 0;">Hang on<br>We're doing the magic!</p>
+    </div>
+  </body>
+</html>
