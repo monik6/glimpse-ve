@@ -25,4 +25,3 @@ Copy the web app URL and go to "Sidebar.html". Paste it in 2 places where the fo
 Open the container Google Slide file named "GlimpseVE" and run Glimpse by clicking on the "Extensions" menu.
 The Glimpse Virtual Exhibition Framework should now be available to use.
 We hope that these instructions have helped you to run our source code successfully. If you encounter any issues or have any questions, please don't hesitate to contact us using monik.kaole@gmail.com!
-You can also check our website for the latest updates: https://www.glimpse-ve.com/
